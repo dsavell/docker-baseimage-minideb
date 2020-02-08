@@ -10,9 +10,11 @@ ENV HOME="/root" \
 RUN \
   ## Operating System Tools
   install_packages \
+    apt-transport-https \
     apt-utils \
     ca-certificates \
     curl \
+    lsb-release \
     locales \
     tzdata \
     wget && \
