@@ -3,7 +3,8 @@ name: dockerCI
 
 on:
   push:
-    branches: [ * ]
+    branches:
+      - '**'
 
 jobs:
   docker:
