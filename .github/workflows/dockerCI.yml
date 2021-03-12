@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - '**'
+    tags:
+      - 'v*'
+  pull_request:
 
 jobs:
   dockerCI:
@@ -13,29 +16,33 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      -
-        name: Lint Code Base
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #-
+      #  name: Lint Code Base
+      #  uses: github/super-linter@v3
+      #  env:
+      #    DEFAULT_BRANCH: master
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Create Docker Meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: dsavell/baseimage-minideb
-      #- name: Login to DockerHub
-      #  uses: docker/login-action@v1
-      #  with:
-      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
-      #- name: Docker Build and Push
-      #  uses: docker/build-push-action@v2
-      #  with:
-      #    context: .
-      #    push: true
-      #    tags: ${{ steps.docker_meta.outputs.tags }}
-      #    labels: ${{ steps.docker_meta.outputs.labels }}
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Docker Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push:  ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
