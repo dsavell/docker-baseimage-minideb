@@ -19,7 +19,9 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: dsavell/baseimage-minideb
+          tag-sha: true
           tag-semver: |
+            buster
             {{version}}
             {{major}}.{{minor}}
       -
