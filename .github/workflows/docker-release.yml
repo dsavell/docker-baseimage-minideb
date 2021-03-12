@@ -1,5 +1,5 @@
 ---
-name: docker-release
+name: Docker Release
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 jobs:
-  dockerCI:
+  docker-release:
     runs-on: ubuntu-latest
     steps:
       -
