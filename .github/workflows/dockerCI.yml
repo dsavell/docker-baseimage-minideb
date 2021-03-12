@@ -16,7 +16,7 @@ jobs:
       #    password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Hadolint Dockerfile
-        used: brpaz/hadolint-action@v1.2.1
+        uses: brpaz/hadolint-action@v1.2.1
       -
         name: Docker meta
         id: docker_meta
