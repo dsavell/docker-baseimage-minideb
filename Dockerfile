@@ -14,6 +14,7 @@ RUN \
   install_packages \
     apt-transport-https \
     apt-utils \
+    bash \
     ca-certificates \
     curl \
     lsb-release \
@@ -31,3 +32,8 @@ RUN \
     /defaults && \
   ## Generate Version File
   echo "${VERSION}" > VERSION
+
+# Add Local Files
+COPY root/ /
+
+ENTRYPOINT ["/init"]
