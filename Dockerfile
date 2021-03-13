@@ -30,4 +30,4 @@ RUN \
     /config \
     /defaults && \
   ## Generate Version File
-  echo ${VERSION} > VERSION
+  echo "${VERSION}" > VERSION
