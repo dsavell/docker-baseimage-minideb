@@ -1,4 +1,6 @@
-FROM bitnami/minideb:buster
+ARG VERSION
+
+FROM bitnami/minideb:${VERSION}
 
 # Set Environment Variables
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -26,4 +28,6 @@ RUN \
   mkdir -p \
     /app \
     /config \
-    /defaults
+    /defaults && \
+  ## Generate Version File
+  echo "${VERSION}" > VERSION

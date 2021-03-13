@@ -18,5 +18,19 @@ jobs:
         name: Lint Code Base
         uses: github/super-linter@v3
         env:
-          DEFAULT_BRANCH: master
+          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Get Version
+        id: getVersion
+        run: |
+          VERSION=$(cat VERSION)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      -
+        name: Test Docker Build
+        uses: docker/build-push-action@v2
+        with:
+          images: dsavell/baseimage-minideb
+          push: false
+          build-args: |
+            VERSION=${{ env.VERSION }}

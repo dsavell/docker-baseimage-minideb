@@ -14,14 +14,19 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Get Version
+        id: getVersion
+        run: |
+          VERSION=$(cat VERSION)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      -
         name: Create Docker Meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: dsavell/baseimage-minideb
-          tag-sha: true
           tag-semver: |
-            buster
+            ${{ env.VERSION }}
             {{version}}
             {{major}}.{{minor}}
       -
