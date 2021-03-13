@@ -14,6 +14,12 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: Get Version
         id: getVersion
         run: |
@@ -43,3 +49,5 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ env.VERSION }}
