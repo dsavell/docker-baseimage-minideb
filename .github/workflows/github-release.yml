@@ -1,0 +1,53 @@
+---
+name: Github Release
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      -
+        name: Get Git SHA
+        run: |
+          GIT_SHA=$(echo "${GITHUB_SHA: -8}")
+          echo "${GIT_SHA}"
+          echo "GIT_SHA=${GIT_SHA}" >> $GITHUB_ENV
+      -
+        name: Get Date
+        run: |
+          DATE=$(date +"%Y%m%d")
+          echo "${DATE}"
+          echo "DATE=${DATE}" >> $GITHUB_ENV
+      -
+        name: Get Version
+        id: getVersion
+        run: |
+          VERSION=$(cat VERSION)
+          echo "${VERSION}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      -
+        name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.3
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          custom_tag: ${{ env.VERSION }}-${{ env.DATE }}-${{ env.GIT_SHA }}
+          tag_prefix: ''
+      -
+        name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
