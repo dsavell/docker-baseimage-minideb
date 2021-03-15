@@ -46,8 +46,6 @@ jobs:
           tag-custom: |
              latest
              ${{ env.VERSION }}
-             ${{ env.VERSION }}-${{ env.GIT_TAG }}
-             ${{ env.VERSION }}-${{ env.GIT_TAG }}-${{ env.GIT_SHA }}
       -
         name: Login to DockerHub
         uses: docker/login-action@v1
