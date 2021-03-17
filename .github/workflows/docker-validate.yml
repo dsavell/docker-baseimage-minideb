@@ -1,10 +1,7 @@
 ---
 name: Docker Validate
 
-on:
-  push:
-    branches:
-      - '*'
+on: push
 
 jobs:
   docker-validate:
