@@ -33,7 +33,6 @@ RUN \
   ## Generate Version File
   echo "${VERSION}" > VERSION
 
-
 # Add Local Files
 COPY root/ /
 
