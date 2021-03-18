@@ -80,7 +80,7 @@ jobs:
           push: ${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
-           build-args: |
+          build-args: |
             VERSION=${{ env.VERSION }}
       - name: Run Snyk
         #if: ${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
