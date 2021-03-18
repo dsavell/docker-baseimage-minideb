@@ -1,4 +1,4 @@
 {
-  "image_name": "baseimage-minideb",
+  "image_name": "dsavell/baseimage-minideb",
   "version": "buster"
 }
