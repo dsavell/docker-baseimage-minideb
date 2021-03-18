@@ -4,7 +4,7 @@ name: Docker
 on: push
 
 env:
-  IMAGE_NAME: dsavell/baseimage-debian
+  METADATA_FILE: metadata.json
   DOCKERFILE: ./Dockerfile
 
 jobs:
@@ -32,9 +32,14 @@ jobs:
           DATE=$(date +"%Y%m%d")
           echo "${DATE}"
           echo "DATE=${DATE}" >> $GITHUB_ENV
+      - name: Get Image Name
+        run: |
+          IMAGE_NAME=$(jq -r .image_name ${{ env.METADATA_FILE }})
+          echo "${IMAGE_NAME}"
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
       - name: Get Version
         run: |
-          VERSION=$(cat VERSION)
+          VERSION=$(jq -r .version ${{ env.METADATA_FILE }})
           echo "${VERSION}"
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
       - name: Bump version and push tag
