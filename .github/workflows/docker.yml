@@ -21,13 +21,11 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get Git SHA
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           GIT_SHA=$(echo "${GITHUB_SHA: -8}")
           echo "${GIT_SHA}"
           echo "GIT_SHA=${GIT_SHA}" >> $GITHUB_ENV
       - name: Get Date
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           DATE=$(date +"%Y%m%d")
           echo "${DATE}"
