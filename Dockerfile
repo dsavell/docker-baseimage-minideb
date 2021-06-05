@@ -15,6 +15,7 @@ RUN \
     bash \
     ca-certificates \
     curl \
+    gnupg2 \
     lsb-release \
     locales \
     tzdata \
