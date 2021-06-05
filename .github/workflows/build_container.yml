@@ -4,7 +4,7 @@ name: Build Container
 on:
   push:
   schedule:
-    - cron: '0 0 1 ? * SUN *'
+    - cron: "0 0 * * SUN"
 
 env:
   METADATA_FILE: metadata.json
