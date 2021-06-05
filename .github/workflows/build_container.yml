@@ -1,5 +1,5 @@
 ---
-name: Docker
+name: Build Container
 
 on: push
 
@@ -51,25 +51,6 @@ jobs:
           echo "${APP_VERSION}"
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
 
-      - name: Bump version and push tag
-        if: ${{ github.ref == 'refs/heads/main' }}
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          custom_tag: ${{ env.APP_VERSION }}-${{ env.DATE }}-${{ env.IMAGE_VERSION }}
-          tag_prefix: ''
-
-      #- name: Create a GitHub release
-      #  if: ${{ github.ref == 'refs/heads/main' }}
-      #  uses: actions/create-release@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      #  with:
-      #    tag_name: ${{ steps.tag_version.outputs.new_tag }}
-      #    release_name: ${{ steps.tag_version.outputs.new_tag }}
-      #    body: ${{ steps.tag_version.outputs.changelog }}
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -96,3 +77,12 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           build-args: |
             APP_VERSION=${{ env.APP_VERSION }}
+
+      - name: Create Git Tag
+        if: ${{ github.ref == 'refs/heads/main' }}
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          custom_tag: ${{ env.APP_VERSION }}-${{ env.DATE }}-${{ env.IMAGE_VERSION }}
+          tag_prefix: ''
