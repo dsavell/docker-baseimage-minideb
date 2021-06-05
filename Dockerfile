@@ -1,6 +1,6 @@
-ARG VERSION
+ARG APP_VERSION
 
-FROM bitnami/minideb:${VERSION}
+FROM bitnami/minideb:${APP_VERSION}
 
 # Set Environment Variables
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -20,7 +20,9 @@ RUN \
     lsb-release \
     locales \
     tzdata \
-    wget && \
+    unzip \
+    wget \
+    zip && \
   ## Generate Locales
   locale-gen en_GB.UTF-8 && \
   ## Application User & Default Directories
