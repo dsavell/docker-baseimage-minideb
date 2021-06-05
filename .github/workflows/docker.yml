@@ -79,7 +79,6 @@ jobs:
       - name: Create Docker Meta
         id: docker_meta
         uses: docker/metadata-action@v3
-        uses:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
