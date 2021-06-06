@@ -1,7 +1,7 @@
 ARG APP_VERSION
-ARG DEBIAN_FRONTEND="noninteractive"
-
 FROM bitnami/minideb:${APP_VERSION}
+
+ARG DEBIAN_FRONTEND="noninteractive"
 
 ENV HOME="/root" \
   LANGUAGE="en_GB.UTF-8" \
@@ -18,8 +18,10 @@ RUN \
     gnupg2 \
     lsb-release \
     locales \
+    nano \
     tzdata \
     unzip \
+    vim \
     wget \
     zip && \
   locale-gen en_GB.UTF-8 && \
